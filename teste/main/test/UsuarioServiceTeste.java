@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import main.java.Usuario;
-import main.java.UsuarioNegocio;
 import main.java.UsuarioRepositorio;
 
 public class UsuarioTeste {
