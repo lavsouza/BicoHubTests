@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.respositorie.UsuarioRepositorio;
 import main.java.service.UsuarioService;
 
 public class UsuarioNegocio {
