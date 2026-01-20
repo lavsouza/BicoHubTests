@@ -1,13 +1,13 @@
 package main.java;
 
-import main.java.respositorie.UsuarioRepositorio;
+import main.java.respositorie.UsuarioRepository;
 import main.java.service.UsuarioService;
 
 public class UsuarioNegocio {
 
-	private UsuarioRepositorio rep;
+	private UsuarioRepository rep;
 	
-	public UsuarioNegocio(UsuarioRepositorio repo) {
+	public UsuarioNegocio(UsuarioRepository repo) {
 		this.rep = repo;
 	}
 	
