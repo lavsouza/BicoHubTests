@@ -1,5 +1,7 @@
 package main.java;
 
+import main.java.service.UsuarioService;
+
 public class UsuarioNegocio {
 
 	private UsuarioRepositorio rep;
@@ -8,20 +10,20 @@ public class UsuarioNegocio {
 		this.rep = repo;
 	}
 	
-	public Usuario adicionar(Usuario u) {
+	public UsuarioService adicionar(UsuarioService u) {
 
 		return null;		
 	}
 	
-    public Usuario remover(String cpf) {
+    public UsuarioService remover(String cpf) {
         return null;
     }
     
-    public Usuario atualizar(Usuario u) {
+    public UsuarioService atualizar(UsuarioService u) {
         return null;
     }
     
-    public Usuario buscar(String cpf) {
+    public UsuarioService buscar(String cpf) {
         return null;
     }
 }

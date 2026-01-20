@@ -1,21 +1,23 @@
 package main.java;
 
+import main.java.service.UsuarioService;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioRepositorio {
 
-	private List<Usuario> usuarios = new ArrayList<Usuario>();
+	private List<UsuarioService> usuarios = new ArrayList<UsuarioService>();
 	
 	
-	public Usuario inserir(Usuario u) {
+	public UsuarioService inserir(UsuarioService u) {
 		this.usuarios.add(u);
 		return u;		
 	}
 	
-	public Usuario remover(String cpf) {
-		Usuario user = null;
-		for (Usuario u: this.usuarios) {
+	public UsuarioService remover(String cpf) {
+		UsuarioService user = null;
+		for (UsuarioService u: this.usuarios) {
 			if (u.getCpf().equals(cpf)) {
 				user = u;
 				this.usuarios.remove(u);
@@ -27,7 +29,7 @@ public class UsuarioRepositorio {
 
 	public boolean buscarPorCpf(String cpf) {
 		boolean found = false;
-		for (Usuario u: this.usuarios) {
+		for (UsuarioService u: this.usuarios) {
 			if (u.getCpf().equals(cpf)) {
 				found = true;
 				break;
