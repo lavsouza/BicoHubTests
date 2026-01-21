@@ -11,7 +11,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void salvar(Usuario usuario) {
+    public boolean salvar(Usuario usuario) {
 
         if (usuario == null) {
             throw new IllegalArgumentException("Usuário não pode ser nulo");
@@ -42,6 +42,20 @@ public class UsuarioService {
         }
 
         usuarioRepository.salvar(usuario);
+        return true;
+    }
+
+    public void deletarPorCpf(String cpf) {
+
+        if (cpf == null || cpf.trim().isEmpty()) {
+            throw new IllegalArgumentException("CPF não pode ser nulo ou vazio");
+        }
+
+        if (!usuarioRepository.existePorCpf(cpf)) {
+            throw new IllegalStateException("Usuário não encontrado para o CPF informado");
+        }
+
+        usuarioRepository.deletarPorCpf(cpf);
     }
 
     private boolean eNuloOuVazio(String valor) {
