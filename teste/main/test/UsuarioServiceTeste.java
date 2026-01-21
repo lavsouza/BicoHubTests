@@ -14,8 +14,21 @@ import main.java.respositorie.UsuarioRepository;
 
 public class UsuarioTeste {
 
-	private UsuarioRepositorio rep;
-	
+	private UsuarioRe rep;
+
+    @BeforeAll
+    public UsuarioService() {
+        Usuario usuarioPadrao = new Usuario(
+                "Usuario Padrao",
+                "user@sistema.com",
+                "12345678",
+                "00000000000",
+                "Endereço padrão"
+        );
+
+        this.salvar(usuarioPadrao);
+    }
+
 	@BeforeEach
 	public void initTestes() {
 		this.rep = mock(UsuarioRepositorio.class);

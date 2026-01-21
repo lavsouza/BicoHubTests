@@ -1,10 +1,6 @@
 package main.java.respositorie;
 
-import main.java.model.Usuario.java;
-import main.java.service.UsuarioService;
-
-import java.util.ArrayList;
-import java.util.List;
+import main.java.model.Usuario;
 
 public interface UsuarioRepository {
 
