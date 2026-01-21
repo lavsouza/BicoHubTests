@@ -1,16 +1,19 @@
-package main.test;
+package test.java.main.test;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
+import main.java.service.UsuarioService;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
 
 import main.java.model.Usuario;
 import main.java.respositorie.UsuarioRepository;
+
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
@@ -24,9 +27,8 @@ public class UsuarioServiceTest {
 	@Test
 	public void testeCadastrarUsuarioDadosValidos() {
         Usuario u = new Usuario("Vilmar", "teste@gmail.com", "12345678", "12345678910", "EnderecoTeste");
-        UsuarioService usuarioService = new UsuarioService(new UsuarioRepository());
 
-        Usuario uCad = usuarioService.salvar(u);
+        boolean uCad = usuarioService.salvar(u);
 
         Assertions.assertNotNull(uCad);
 	}
