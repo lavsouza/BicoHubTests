@@ -1,6 +1,6 @@
 package main.java.respositorie;
 
-import main.java.model.Usuario;
+import main.java.model.Usuario.java;
 import main.java.service.UsuarioService;
 
 import java.util.ArrayList;

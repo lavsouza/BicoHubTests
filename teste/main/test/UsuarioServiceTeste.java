@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import main.java.Usuario;
-import main.java.UsuarioRepositorio;
+import main.java.model.Usuario;
+import main.java.respositorie.UsuarioRepository;
 
 public class UsuarioTeste {
 
