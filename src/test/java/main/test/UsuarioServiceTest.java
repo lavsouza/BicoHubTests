@@ -23,15 +23,28 @@ public class UsuarioServiceTest {
 
     @InjectMocks
     private UsuarioService usuarioService;
-	
-	@Test
-	public void testeCadastrarUsuarioDadosValidos() {
-        Usuario u = new Usuario("Vilmar", "teste@gmail.com", "12345678", "12345678910", "EnderecoTeste");
 
-        boolean uCad = usuarioService.salvar(u);
+    @Test
+    void testeCadastrarUsuarioDadosValidos() {
+        Usuario u = new Usuario(
+                "Vilmar",
+                "teste@gmail.com",
+                "12345678",
+                "12345678910",
+                "EnderecoTeste"
+        );
 
-        Assertions.assertNotNull(uCad);
-	}
+        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(false);
+        when(usuarioRepository.existePorEmail(u.getEmail())).thenReturn(false);
+        when(usuarioRepository.salvar(u)).thenReturn(true);
+
+        boolean resultado = usuarioService.salvar(u);
+
+        Assertions.assertTrue(resultado);
+
+        verify(usuarioRepository, times(1)).salvar(u);
+    }
+
 
     @Test
     void deveExcluirUsuarioQuandoCpfExiste() {
@@ -58,24 +71,38 @@ public class UsuarioServiceTest {
 
     @Test
     void deveImpedirCadastroDeUsuarioComEmailExistente() {
-        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12345678901", "EnderecoTeste");
-        usuarioService.salvar(a);
-        Usuario b = new Usuario("Maria", "teste@gmail.com","87654321","10987654321","OutroEndereco");
+        Usuario u = new Usuario(
+                "Joao",
+                "teste@gmail.com",
+                "12345678",
+                "12345678901",
+                "EnderecoTeste"
+        );
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(b));
+        when(usuarioRepository.existePorEmail(u.getEmail())).thenReturn(true);
 
-        verify(usuarioRepository, never()).salvar(any(Usuario.class));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> usuarioService.salvar(u));
+
+        verify(usuarioRepository, never()).salvar(any());
     }
 
     @Test
     void deveImpedirCadastroDeUsuarioComCpfExistente() {
-        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12345678901", "EnderecoTeste");
-        usuarioService.salvar(a);
-        Usuario b = new Usuario("Maria", "testado@gmail.com","87654321","12345678901","OutroEndereco");
+        Usuario u = new Usuario(
+                "Joao",
+                "teste@gmail.com",
+                "12345678",
+                "12345678901",
+                "EnderecoTeste"
+        );
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(b));
+        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(true);
 
-        verify(usuarioRepository, never()).salvar(any(Usuario.class));
+        Assertions.assertThrows(IllegalArgumentException.class,
+                () -> usuarioService.salvar(u));
+
+        verify(usuarioRepository, never()).salvar(any());
     }
 
     @Test
