@@ -1,4 +1,4 @@
-package main.java.respositorie;
+package main.java.respository;
 
 import main.java.model.Usuario;
 
@@ -8,6 +8,6 @@ public interface UsuarioRepository {
     void deletarPorCpf(String cpf);
     boolean existePorEmail(String email);
     boolean existePorCpf(String cpf);
-    Usuario buscarPorCpf(String cpf); // Opcional, dependendo da sua lógica
+    Usuario buscarPorCpf(String cpf);
 
 }

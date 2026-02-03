@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import main.java.model.Usuario;
-import main.java.respositorie.UsuarioRepository;
+import main.java.respository.UsuarioRepository;
 
 import static org.mockito.Mockito.*;
 

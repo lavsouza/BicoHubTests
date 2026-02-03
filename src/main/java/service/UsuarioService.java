@@ -1,7 +1,7 @@
 package main.java.service;
 
 import main.java.model.Usuario;
-import main.java.respositorie.UsuarioRepository;
+import main.java.respository.UsuarioRepository;
 
 public class UsuarioService {
 
