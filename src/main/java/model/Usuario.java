@@ -9,12 +9,12 @@ public class Usuario {
     private String senha;
     private String cpf;
     private LocalDate dataNascimento;
-    private Endereco endereco;
+    private String endereco;
 
     public Usuario() {
     }
 
-    public Usuario(String nome, String sobrenome, String email, String senha, String cpf, LocalDate dataNascimento, Endereco endereco) {
+    public Usuario(String nome, String sobrenome, String email, String senha, String cpf, LocalDate dataNascimento, String endereco) {
         this.nome = nome;
         this.sobrenome = sobrenome;
         this.email = email;
@@ -72,11 +72,11 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
-    public Endereco getEndereco() {
+    public String getEndereco() {
         return endereco;
     }
 
-    public void setEndereco(Endereco endereco) {
+    public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
 }

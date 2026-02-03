@@ -9,5 +9,4 @@ public interface UsuarioRepository {
     boolean existePorEmail(String email);
     boolean existePorCpf(String cpf);
     Usuario buscarPorCpf(String cpf);
-
 }
