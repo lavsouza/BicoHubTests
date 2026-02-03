@@ -13,6 +13,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import main.java.model.Usuario;
 import main.java.respository.UsuarioRepository;
 
+import java.time.LocalDate;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -27,11 +29,13 @@ public class UsuarioServiceTest {
     @Test
     void testeCadastrarUsuarioDadosValidos() {
         Usuario u = new Usuario(
-                "Vilmar",
-                "teste@gmail.com",
-                "12345678",
-                "12345678910",
-                "EnderecoTeste"
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silvinha1989",
+                "368.532.600-74",
+                LocalDate.parse("1989-11-09"),
+                "IFPE Recife"
         );
 
         when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(false);
@@ -130,6 +134,15 @@ public class UsuarioServiceTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
 
         verify(usuarioRepository, never()).salvar(any(Usuario.class));
+    }
+
+    @Test
+    void deveImpedirExclusaoComCpfNulo() {
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.deletarPorCpf(null)
+        );
+
+        verify(usuarioRepository, never()).deletarPorCpf(anyString());
     }
 
 
