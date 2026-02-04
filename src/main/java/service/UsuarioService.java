@@ -33,6 +33,10 @@ public class UsuarioService {
             throw new IllegalArgumentException("CPF deve conter exatamente 11 dígitos numéricos");
         }
 
+        if (usuario.getCpf().isEmpty()) {
+            throw new IllegalArgumentException("CPF não deve estar em branco");
+        }
+
         if (usuarioRepository.existePorEmail(usuario.getEmail())) {
             throw new IllegalArgumentException("Email já cadastrado no sistema");
         }

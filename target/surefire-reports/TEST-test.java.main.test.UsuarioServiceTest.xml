@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="test.java.main.test.UsuarioServiceTest" time="1.828" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="test.java.main.test.UsuarioServiceTest" time="1.583" tests="3" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="BR"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot\bin"/>
-    <property name="sun.java.command" value="C:\Users\lucas\AppData\Local\Temp\surefire1312761768058768499\surefirebooter-20260121194507152_3.jar C:\Users\lucas\AppData\Local\Temp\surefire1312761768058768499 2026-01-21T19-45-06_898-jvmRun1 surefire-20260121194507152_1tmp surefire_0-20260121194507152_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\lucas\AppData\Local\Temp\surefire750840070965648533\surefirebooter-20260203212341662_3.jar C:\Users\lucas\AppData\Local\Temp\surefire750840070965648533 2026-02-03T21-23-41_395-jvmRun1 surefire-20260203212341662_1tmp surefire_0-20260203212341662_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\lucas\OneDrive\Faculdade e Carreira\Faculdade 2025.2\Testes de Software\BicoHubTests\target\test-classes;C:\Users\lucas\OneDrive\Faculdade e Carreira\Faculdade 2025.2\Testes de Software\BicoHubTests\target\classes;C:\Users\lucas\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\lucas\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\lucas\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\lucas\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\lucas\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\lucas\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\lucas\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\lucas\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\lucas\.m2\repository\org\mockito\mockito-core\5.11.0\mockito-core-5.11.0.jar;C:\Users\lucas\.m2\repository\net\bytebuddy\byte-buddy\1.14.12\byte-buddy-1.14.12.jar;C:\Users\lucas\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.12\byte-buddy-agent-1.14.12.jar;C:\Users\lucas\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\lucas\.m2\repository\org\mockito\mockito-junit-jupiter\5.11.0\mockito-junit-jupiter-5.11.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\lucas\AppData\Local\Temp\surefire1312761768058768499\surefirebooter-20260121194507152_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\lucas\AppData\Local\Temp\surefire750840070965648533\surefirebooter-20260203212341662_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.17+10-LTS"/>
@@ -50,7 +50,7 @@
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
     <property name="sun.os.patch.level" value=""/>
     <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\lucas\Downloads\apache-maven-3.9.11\bin;C:\Users\lucas\AppData\Local\Microsoft\WindowsApps;;C:\Users\lucas\AppData\Roaming\cabal\bin;C:\tools\ghc-9.8.2\bin;C:\tools\msys64;C:\Users\lucas\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\lucas\AppData\Roaming\npm;C:\Users\lucas\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg.Shared_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build-shared\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.2.5\bin;."/>
+    <property name="java.library.path" value="C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Microsoft\jdk-17.0.17.10-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Users\lucas\Downloads\apache-maven-3.9.11\bin;C:\Users\lucas\AppData\Local\Microsoft\WindowsApps;;C:\Users\lucas\AppData\Roaming\cabal\bin;C:\tools\ghc-9.8.2\bin;C:\tools\msys64;C:\Users\lucas\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\lucas\AppData\Roaming\npm;C:\Users\lucas\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg.Shared_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.0.1-full_build-shared\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2025.2.5\bin;C:\Program Files\JetBrains\PyCharm 2025.3.1\bin;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
     <property name="java.vendor" value="Microsoft"/>
     <property name="java.vm.version" value="17.0.17+10-LTS"/>
@@ -58,12 +58,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="deveImpedirCadastroComSenhaFraca" classname="test.java.main.test.UsuarioServiceTest" time="1.681"/>
-  <testcase name="deveImpedirCadastroDeUsuarioComEmailExistente" classname="test.java.main.test.UsuarioServiceTest" time="0.025"/>
-  <testcase name="deveImpedirCadastroComEnderecoVazio" classname="test.java.main.test.UsuarioServiceTest" time="0.007"/>
-  <testcase name="deveDetectarUsuarioComNomeNulo" classname="test.java.main.test.UsuarioServiceTest" time="0.006"/>
-  <testcase name="deveImpedirCadastroDeUsuarioComCpfInvalido" classname="test.java.main.test.UsuarioServiceTest" time="0.007"/>
-  <testcase name="testeCadastrarUsuarioDadosValidos" classname="test.java.main.test.UsuarioServiceTest" time="0.01"/>
-  <testcase name="deveImpedirCadastroDeUsuarioComCpfExistente" classname="test.java.main.test.UsuarioServiceTest" time="0.007"/>
-  <testcase name="deveExcluirUsuarioQuandoCpfExiste" classname="test.java.main.test.UsuarioServiceTest" time="0.009"/>
+  <testcase name="testeCadastrarUsuarioCpfVazio" classname="test.java.main.test.UsuarioServiceTest" time="1.515"/>
+  <testcase name="testeCadastrarUsuarioNomeVazio" classname="test.java.main.test.UsuarioServiceTest" time="0.005"/>
+  <testcase name="testeCadastrarUsuarioDadosValidos" classname="test.java.main.test.UsuarioServiceTest" time="0.016"/>
 </testsuite>

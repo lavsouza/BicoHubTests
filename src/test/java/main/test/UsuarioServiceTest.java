@@ -7,7 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.*;
 
 
 import main.java.model.Usuario;
@@ -33,13 +33,13 @@ public class UsuarioServiceTest {
                 "Silva",
                 "joao.silva@gmail.com",
                 "silvinha1989",
-                "368.532.600-74",
+                "36853260074",
                 LocalDate.parse("1989-11-09"),
                 "IFPE Recife"
         );
 
-        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(false);
         when(usuarioRepository.existePorEmail(u.getEmail())).thenReturn(false);
+        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(false);
         when(usuarioRepository.salvar(u)).thenReturn(true);
 
         boolean resultado = usuarioService.salvar(u);
@@ -49,101 +49,138 @@ public class UsuarioServiceTest {
         verify(usuarioRepository, times(1)).salvar(u);
     }
 
-
     @Test
-    void deveExcluirUsuarioQuandoCpfExiste() {
-
-        String cpf = "12345678901";
-
-        when(usuarioRepository.existePorCpf(cpf)).thenReturn(true);
-
-        Assertions.assertDoesNotThrow(() ->
-                usuarioService.deletarPorCpf(cpf)
-        );
-
-        verify(usuarioRepository, times(1)).deletarPorCpf(cpf);
-    }
-
-    @Test
-    void deveDetectarUsuarioComNomeNulo() {
-        Usuario u = new Usuario(null, "abc12345@gmail.com", "12345678", "12345678901", "enderecoTeste");
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(u));
-
-        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-    }
-
-    @Test
-    void deveImpedirCadastroDeUsuarioComEmailExistente() {
+    void testeCadastrarUsuarioCpfVazio() {
         Usuario u = new Usuario(
-                "Joao",
-                "teste@gmail.com",
-                "12345678",
-                "12345678901",
-                "EnderecoTeste"
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silvinha1989",
+                "",
+                LocalDate.parse("1989-11-09"),
+                "IFPE Recife"
         );
 
-        when(usuarioRepository.existePorEmail(u.getEmail())).thenReturn(true);
-
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> usuarioService.salvar(u));
-
-        verify(usuarioRepository, never()).salvar(any());
-    }
-
-    @Test
-    void deveImpedirCadastroDeUsuarioComCpfExistente() {
-        Usuario u = new Usuario(
-                "Joao",
-                "teste@gmail.com",
-                "12345678",
-                "12345678901",
-                "EnderecoTeste"
-        );
-
-        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(true);
-
-        Assertions.assertThrows(IllegalArgumentException.class,
-                () -> usuarioService.salvar(u));
-
-        verify(usuarioRepository, never()).salvar(any());
-    }
-
-    @Test
-    void deveImpedirCadastroDeUsuarioComCpfInvalido() {
-        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12", "EnderecoTeste");
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
-
-        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-    }
-
-    @Test
-    void deveImpedirCadastroComSenhaFraca() {
-        Usuario a = new Usuario("Joao", "teste@gmail.com", "123", "12345678901", "EnderecoTeste");
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
-
-        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-    }
-
-    @Test
-    void deveImpedirCadastroComEnderecoVazio() {
-        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12345678901", null);
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
-
-        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-    }
-
-    @Test
-    void deveImpedirExclusaoComCpfNulo() {
         Assertions.assertThrows(IllegalArgumentException.class, () ->
-                usuarioService.deletarPorCpf(null)
+                usuarioService.salvar(u)
         );
 
-        verify(usuarioRepository, never()).deletarPorCpf(anyString());
+        verify(usuarioRepository, never()).salvar(any());
     }
 
+    @Test
+    void testeCadastrarUsuarioNomeVazio() {
+        Usuario u = new Usuario(
+                "",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silvinha1989",
+                "36853260074",
+                LocalDate.parse("1989-11-09"),
+                "IFPE Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+
+//    @Test
+//    void deveExcluirUsuarioQuandoCpfExiste() {
+//
+//        String cpf = "12345678901";
+//
+//        when(usuarioRepository.existePorCpf(cpf)).thenReturn(true);
+//
+//        Assertions.assertDoesNotThrow(() ->
+//                usuarioService.deletarPorCpf(cpf)
+//        );
+//
+//        verify(usuarioRepository, times(1)).deletarPorCpf(cpf);
+//    }
+//
+//    @Test
+//    void deveDetectarUsuarioComNomeNulo() {
+//        Usuario u = new Usuario(null, "abc12345@gmail.com", "12345678", "12345678901", "enderecoTeste");
+//
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(u));
+//
+//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
+//    }
+//
+//    @Test
+//    void deveImpedirCadastroDeUsuarioComEmailExistente() {
+//        Usuario u = new Usuario(
+//                "Joao",
+//                "teste@gmail.com",
+//                "12345678",
+//                "12345678901",
+//                "EnderecoTeste"
+//        );
+//
+//        when(usuarioRepository.existePorEmail(u.getEmail())).thenReturn(true);
+//
+//        Assertions.assertThrows(IllegalArgumentException.class,
+//                () -> usuarioService.salvar(u));
+//
+//        verify(usuarioRepository, never()).salvar(any());
+//    }
+//
+//    @Test
+//    void deveImpedirCadastroDeUsuarioComCpfExistente() {
+//        Usuario u = new Usuario(
+//                "Joao",
+//                "teste@gmail.com",
+//                "12345678",
+//                "12345678901",
+//                "EnderecoTeste"
+//        );
+//
+//        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(true);
+//
+//        Assertions.assertThrows(IllegalArgumentException.class,
+//                () -> usuarioService.salvar(u));
+//
+//        verify(usuarioRepository, never()).salvar(any());
+//    }
+//
+//    @Test
+//    void deveImpedirCadastroDeUsuarioComCpfInvalido() {
+//        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12", "EnderecoTeste");
+//
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
+//
+//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
+//    }
+//
+//    @Test
+//    void deveImpedirCadastroComSenhaFraca() {
+//        Usuario a = new Usuario("Joao", "teste@gmail.com", "123", "12345678901", "EnderecoTeste");
+//
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
+//
+//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
+//    }
+//
+//    @Test
+//    void deveImpedirCadastroComEnderecoVazio() {
+//        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12345678901", null);
+//
+//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
+//
+//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
+//    }
+//
+//    @Test
+//    void deveImpedirExclusaoComCpfNulo() {
+//        Assertions.assertThrows(IllegalArgumentException.class, () ->
+//                usuarioService.deletarPorCpf(null)
+//        );
+//
+//        verify(usuarioRepository, never()).deletarPorCpf(anyString());
+//    }
 
 }

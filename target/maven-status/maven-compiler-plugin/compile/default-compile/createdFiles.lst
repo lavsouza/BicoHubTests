@@ -1,3 +1,8 @@
-main\java\service\UsuarioService.class
-main\java\respositorie\UsuarioRepository.class
+main\java\respository\UsuarioRepository.class
+main\java\model\Job.class
+main\java\model\Categoria.class
+main\java\model\Profissional.class
 main\java\model\Usuario.class
+main\java\service\UsuarioService.class
+main\java\model\Proposta.class
+main\java\model\Avaliacao.class
