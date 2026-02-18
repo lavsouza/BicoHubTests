@@ -1,5 +1,6 @@
 package main.java.model;
 
+import java.sql.Blob;
 import java.time.LocalDate;
 
 public class Usuario {
@@ -10,6 +11,7 @@ public class Usuario {
     private String cpf;
     private LocalDate dataNascimento;
     private String endereco;
+    private Blob fotoPerfil;
 
     public Usuario() {
     }
@@ -78,5 +80,13 @@ public class Usuario {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public Blob getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(Blob fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 }

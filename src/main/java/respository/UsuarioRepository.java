@@ -5,6 +5,7 @@ import main.java.model.Usuario;
 public interface UsuarioRepository {
 
     boolean salvar(Usuario usuario);
+    boolean atualizar(Usuario usuarioAtualizado);
     void deletarPorCpf(String cpf);
     boolean existePorEmail(String email);
     boolean existePorCpf(String cpf);

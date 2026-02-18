@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.*;
 import main.java.model.Usuario;
 import main.java.respository.UsuarioRepository;
 
+import java.sql.Blob;
 import java.time.LocalDate;
 
 import static org.mockito.Mockito.*;
@@ -33,7 +34,7 @@ public class UsuarioServiceTest {
                 "Silva",
                 "joao.silva@gmail.com",
                 "silvinha1989",
-                "36853260074",
+                "11111111185",
                 LocalDate.parse("1989-11-09"),
                 "IFPE Recife"
         );
@@ -75,7 +76,7 @@ public class UsuarioServiceTest {
                 "Silva",
                 "joao.silva@gmail.com",
                 "silvinha1989",
-                "36853260074",
+                "11111111185",
                 LocalDate.parse("1989-11-09"),
                 "IFPE Recife"
         );
@@ -87,100 +88,261 @@ public class UsuarioServiceTest {
         verify(usuarioRepository, never()).salvar(any());
     }
 
+    @Test
+    void testeCadastrarUsuarioSobrenomeVazio() {
+        Usuario u = new Usuario(
+                "João",
+                "",
+                "joao.silva@gmail.com",
+                "silvinha1989",
+                "11111111185",
+                LocalDate.parse("1989-11-09"),
+                "IFPE Recife"
+        );
 
-//    @Test
-//    void deveExcluirUsuarioQuandoCpfExiste() {
-//
-//        String cpf = "12345678901";
-//
-//        when(usuarioRepository.existePorCpf(cpf)).thenReturn(true);
-//
-//        Assertions.assertDoesNotThrow(() ->
-//                usuarioService.deletarPorCpf(cpf)
-//        );
-//
-//        verify(usuarioRepository, times(1)).deletarPorCpf(cpf);
-//    }
-//
-//    @Test
-//    void deveDetectarUsuarioComNomeNulo() {
-//        Usuario u = new Usuario(null, "abc12345@gmail.com", "12345678", "12345678901", "enderecoTeste");
-//
-//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(u));
-//
-//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-//    }
-//
-//    @Test
-//    void deveImpedirCadastroDeUsuarioComEmailExistente() {
-//        Usuario u = new Usuario(
-//                "Joao",
-//                "teste@gmail.com",
-//                "12345678",
-//                "12345678901",
-//                "EnderecoTeste"
-//        );
-//
-//        when(usuarioRepository.existePorEmail(u.getEmail())).thenReturn(true);
-//
-//        Assertions.assertThrows(IllegalArgumentException.class,
-//                () -> usuarioService.salvar(u));
-//
-//        verify(usuarioRepository, never()).salvar(any());
-//    }
-//
-//    @Test
-//    void deveImpedirCadastroDeUsuarioComCpfExistente() {
-//        Usuario u = new Usuario(
-//                "Joao",
-//                "teste@gmail.com",
-//                "12345678",
-//                "12345678901",
-//                "EnderecoTeste"
-//        );
-//
-//        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(true);
-//
-//        Assertions.assertThrows(IllegalArgumentException.class,
-//                () -> usuarioService.salvar(u));
-//
-//        verify(usuarioRepository, never()).salvar(any());
-//    }
-//
-//    @Test
-//    void deveImpedirCadastroDeUsuarioComCpfInvalido() {
-//        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12", "EnderecoTeste");
-//
-//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
-//
-//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-//    }
-//
-//    @Test
-//    void deveImpedirCadastroComSenhaFraca() {
-//        Usuario a = new Usuario("Joao", "teste@gmail.com", "123", "12345678901", "EnderecoTeste");
-//
-//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
-//
-//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-//    }
-//
-//    @Test
-//    void deveImpedirCadastroComEnderecoVazio() {
-//        Usuario a = new Usuario("Joao", "teste@gmail.com", "12345678", "12345678901", null);
-//
-//        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.salvar(a));
-//
-//        verify(usuarioRepository, never()).salvar(any(Usuario.class));
-//    }
-//
-//    @Test
-//    void deveImpedirExclusaoComCpfNulo() {
-//        Assertions.assertThrows(IllegalArgumentException.class, () ->
-//                usuarioService.deletarPorCpf(null)
-//        );
-//
-//        verify(usuarioRepository, never()).deletarPorCpf(anyString());
-//    }
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    @Test
+    void testeCadastrarUsuarioEmailJaCadastrado() {
+        Usuario u = new Usuario(
+                "João",
+                "Silva",
+                "emailjaexistente@gmail.com",
+                "silvinha1989",
+                "11111111185",
+                LocalDate.parse("1989-11-09"),
+                "IFPE Recife"
+        );
+
+        when(usuarioRepository.existePorEmail(u.getEmail())).thenReturn(true);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    @Test
+    void testeCadastrarUsuarioCPFJaCadastrado() {
+        Usuario u = new Usuario(
+                "João",
+                "Silva",
+                "emailjaexistente@gmail.com",
+                "silvinha1989",
+                "11111111185",
+                LocalDate.parse("1989-11-09"),
+                "IFPE Recife"
+        );
+
+        when(usuarioRepository.existePorCpf(u.getCpf())).thenReturn(true);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    @Test
+    void testeCadastrarUsuarioDataNascimentoMaiorQueAtual() {
+        Usuario u = new Usuario(
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silvinha1989",
+                "11111111185",
+                LocalDate.parse("3050-01-01"),
+                "IFPE Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    @Test
+    void testeCadastrarUsuarioMenorDeIdade() {
+        Usuario u = new Usuario(
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silvinha1989",
+                "11111111185",
+                LocalDate.now().minusYears(17),
+                "IFPE Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    @Test
+    void testeCadastrarUsuarioSenhaForaPadrao() {
+        Usuario u = new Usuario(
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silva",
+                "11111111185",
+                LocalDate.parse("1989-01-01"),
+                "IFPE Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    @Test
+    void testeCadastrarUsuarioFotoPerfilGrande() throws Exception {
+
+        Usuario u = new Usuario(
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "senhaSegura123",
+                "11111111185",
+                LocalDate.now().minusYears(25),
+                "IFPE Recife"
+        );
+
+        Blob blobMock = mock(Blob.class);
+
+        // Simulando 201MB
+        when(blobMock.length()).thenReturn(201L * 1024 * 1024);
+
+        u.setFotoPerfil(blobMock);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(u)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    @Test
+    void testeAtualizarUsuarioCpfSucesso() {
+
+        String cpfAntigo = "11111111185";
+
+        Usuario usuarioBanco = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfAntigo,
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        Usuario usuarioAlterado = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "11111112385",
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        when(usuarioRepository.buscarPorCpf(cpfAntigo))
+                .thenReturn(usuarioBanco);
+        when(usuarioRepository.existePorCpf("11111112385"))
+                .thenReturn(false);
+        when(usuarioRepository.atualizar(usuarioAlterado))
+                .thenReturn(true);
+
+        boolean resultado = usuarioService.atualizar(cpfAntigo, usuarioAlterado);
+        Assertions.assertTrue(resultado);
+
+        verify(usuarioRepository, times(1)).atualizar(usuarioAlterado);
+    }
+
+    @Test
+    void testeAtualizarUsuarioCpfJaExistente() {
+
+        String cpfAntigo = "11111111185";
+        String cpfJaExistente = "99999999999";
+
+        Usuario usuarioBanco = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfAntigo,
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        Usuario usuarioAlterado = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfJaExistente,
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        when(usuarioRepository.buscarPorCpf(cpfAntigo))
+                .thenReturn(usuarioBanco);
+
+        when(usuarioRepository.existePorCpf(cpfJaExistente))
+                .thenReturn(true);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.atualizar(cpfAntigo, usuarioAlterado)
+        );
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    @Test
+    void testeAtualizarUsuarioCpfVazio() {
+
+        String cpfAntigo = "11111111185";
+
+        Usuario usuarioBanco = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfAntigo,
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        Usuario usuarioAlterado = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "",
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        when(usuarioRepository.buscarPorCpf(cpfAntigo))
+                .thenReturn(usuarioBanco);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.atualizar(cpfAntigo, usuarioAlterado)
+        );
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
 
 }
