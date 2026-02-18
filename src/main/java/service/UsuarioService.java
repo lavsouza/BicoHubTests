@@ -86,27 +86,101 @@ public class UsuarioService {
 
     public boolean atualizar(String cpfAtual, Usuario usuarioAtualizado) {
 
+        if (cpfAtual == null || cpfAtual.trim().isEmpty()) {
+            throw new IllegalArgumentException("CPF atual não pode ser vazio");
+        }
+
         Usuario usuarioBanco = usuarioRepository.buscarPorCpf(cpfAtual);
 
         if (usuarioBanco == null) {
             throw new IllegalArgumentException("Usuário não encontrado");
         }
 
-        if (usuarioAtualizado.getCpf() == null || usuarioAtualizado.getCpf().trim().isEmpty()) {
-            throw new IllegalArgumentException("CPF não pode ser vazio");
-        }
+        // ===== CPF =====
+        if (usuarioAtualizado.getCpf() != null &&
+                !usuarioAtualizado.getCpf().equals(cpfAtual)) {
 
-        if (!usuarioAtualizado.getCpf().matches("\\d{11}")) {
-            throw new IllegalArgumentException("CPF inválido");
-        }
+            if (!usuarioAtualizado.getCpf().matches("\\d{11}")) {
+                throw new IllegalArgumentException("CPF inválido");
+            }
 
-        if (!cpfAtual.equals(usuarioAtualizado.getCpf())) {
             if (usuarioRepository.existePorCpf(usuarioAtualizado.getCpf())) {
                 throw new IllegalArgumentException("CPF já cadastrado");
             }
+
+            usuarioBanco.setCpf(usuarioAtualizado.getCpf());
         }
 
-        return usuarioRepository.atualizar(usuarioAtualizado);
+        // ===== Nome =====
+        if (usuarioAtualizado.getNome() != null &&
+                !usuarioAtualizado.getNome().trim().isEmpty()) {
+            usuarioBanco.setNome(usuarioAtualizado.getNome());
+        }
+
+        // ===== Sobrenome =====
+        if (usuarioAtualizado.getSobrenome() != null &&
+                !usuarioAtualizado.getSobrenome().trim().isEmpty()) {
+            usuarioBanco.setSobrenome(usuarioAtualizado.getSobrenome());
+        }
+
+        // ===== Email =====
+        if (usuarioAtualizado.getEmail() != null &&
+                !usuarioAtualizado.getEmail().trim().isEmpty()) {
+            usuarioBanco.setEmail(usuarioAtualizado.getEmail());
+        }
+
+        // ===== Senha =====
+        if (usuarioAtualizado.getSenha() != null) {
+
+            if (usuarioAtualizado.getSenha().trim().isEmpty()) {
+                throw new IllegalArgumentException("Senha não pode ser vazia");
+            }
+
+            if (usuarioAtualizado.getSenha().length() < 8) {
+                throw new IllegalArgumentException("Senha deve ter no mínimo 8 caracteres");
+            }
+
+            usuarioBanco.setSenha(usuarioAtualizado.getSenha());
+        }
+
+        // ===== Data =====
+        if (usuarioAtualizado.getDataNascimento() != null) {
+
+            if (usuarioAtualizado.getDataNascimento().isAfter(LocalDate.now())) {
+                throw new IllegalArgumentException("Data futura inválida");
+            }
+
+            if (usuarioAtualizado.getDataNascimento()
+                    .plusYears(18).isAfter(LocalDate.now())) {
+                throw new IllegalArgumentException("Usuário deve ser maior de 18 anos");
+            }
+
+            usuarioBanco.setDataNascimento(usuarioAtualizado.getDataNascimento());
+        }
+
+        // ===== Endereço =====
+        if (usuarioAtualizado.getEndereco() != null &&
+                !usuarioAtualizado.getEndereco().trim().isEmpty()) {
+            usuarioBanco.setEndereco(usuarioAtualizado.getEndereco());
+        }
+
+        // ===== Foto =====
+        if (usuarioAtualizado.getFotoPerfil() != null) {
+
+            long tamanhoMaximo = 200L * 1024 * 1024;
+
+            try {
+                if (usuarioAtualizado.getFotoPerfil().length() > tamanhoMaximo) {
+                    throw new IllegalArgumentException("Foto excede 200MB");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao validar foto", e);
+            }
+
+            usuarioBanco.setFotoPerfil(usuarioAtualizado.getFotoPerfil());
+        }
+
+        return usuarioRepository.atualizar(usuarioBanco);
     }
 
     public void deletarPorCpf(String cpf) {

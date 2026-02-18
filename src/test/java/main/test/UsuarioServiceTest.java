@@ -235,7 +235,6 @@ public class UsuarioServiceTest {
 
     @Test
     void testeAtualizarUsuarioCpfSucesso() {
-
         String cpfAntigo = "11111111185";
 
         Usuario usuarioBanco = new Usuario(
@@ -248,32 +247,28 @@ public class UsuarioServiceTest {
                 "Recife"
         );
 
-        Usuario usuarioAlterado = new Usuario(
-                "João",
-                "Silva",
-                "joao@gmail.com",
-                "senha123",
-                "11111112385",
-                LocalDate.now().minusYears(30),
-                "Recife"
-        );
+        Usuario usuarioAlterado = new Usuario();
+        usuarioAlterado.setCpf("11111112385");
 
         when(usuarioRepository.buscarPorCpf(cpfAntigo))
                 .thenReturn(usuarioBanco);
+
         when(usuarioRepository.existePorCpf("11111112385"))
                 .thenReturn(false);
-        when(usuarioRepository.atualizar(usuarioAlterado))
+
+        when(usuarioRepository.atualizar(usuarioBanco))
                 .thenReturn(true);
 
         boolean resultado = usuarioService.atualizar(cpfAntigo, usuarioAlterado);
-        Assertions.assertTrue(resultado);
 
-        verify(usuarioRepository, times(1)).atualizar(usuarioAlterado);
+        Assertions.assertTrue(resultado);
+        Assertions.assertEquals("11111112385", usuarioBanco.getCpf());
+
+        verify(usuarioRepository, times(1)).atualizar(usuarioBanco);
     }
 
     @Test
     void testeAtualizarUsuarioCpfJaExistente() {
-
         String cpfAntigo = "11111111185";
         String cpfJaExistente = "99999999999";
 
@@ -287,15 +282,8 @@ public class UsuarioServiceTest {
                 "Recife"
         );
 
-        Usuario usuarioAlterado = new Usuario(
-                "João",
-                "Silva",
-                "joao@gmail.com",
-                "senha123",
-                cpfJaExistente,
-                LocalDate.now().minusYears(30),
-                "Recife"
-        );
+        Usuario usuarioAlterado = new Usuario();
+        usuarioAlterado.setCpf(cpfJaExistente);
 
         when(usuarioRepository.buscarPorCpf(cpfAntigo))
                 .thenReturn(usuarioBanco);
@@ -312,6 +300,122 @@ public class UsuarioServiceTest {
 
     @Test
     void testeAtualizarUsuarioCpfVazio() {
+        String cpfAntigo = "11111111185";
+
+        Usuario usuarioBanco = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfAntigo,
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        Usuario usuarioAlterado = new Usuario();
+        usuarioAlterado.setCpf("");
+
+        when(usuarioRepository.buscarPorCpf(cpfAntigo))
+                .thenReturn(usuarioBanco);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.atualizar(cpfAntigo, usuarioAlterado)
+        );
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    @Test
+    void testeAtualizarUsuarioCpfInvalido() {
+        String cpfAntigo = "11111111185";
+
+        Usuario usuarioBanco = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfAntigo,
+                LocalDate.now().minusYears(30),
+                "Recife"
+        );
+
+        Usuario usuarioAlterado = new Usuario();
+        usuarioAlterado.setCpf("123");
+
+        when(usuarioRepository.buscarPorCpf(cpfAntigo))
+                .thenReturn(usuarioBanco);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.atualizar(cpfAntigo, usuarioAlterado)
+        );
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    @Test
+    void testeAtualizarUsuarioSobrenomeSucesso() {
+        String cpfAntigo = "11111111185";
+
+        Usuario usuarioBanco = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfAntigo,
+                LocalDate.of(1990, 1, 1),
+                "Recife"
+        );
+
+        Usuario usuarioAlterado = new Usuario();
+        usuarioAlterado.setSobrenome("Teste da Silva");
+
+        when(usuarioRepository.buscarPorCpf(cpfAntigo))
+                .thenReturn(usuarioBanco);
+
+        when(usuarioRepository.atualizar(usuarioBanco))
+                .thenReturn(true);
+
+        boolean resultado = usuarioService.atualizar(cpfAntigo, usuarioAlterado);
+
+        Assertions.assertTrue(resultado);
+        Assertions.assertEquals("Teste da Silva", usuarioBanco.getSobrenome());
+
+        verify(usuarioRepository, times(1)).atualizar(usuarioBanco);
+    }
+
+    @Test
+    void testeAtualizarUsuarioDataNascimentoSucesso() {
+        String cpfAntigo = "11111111185";
+
+        Usuario usuarioBanco = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                cpfAntigo,
+                LocalDate.of(1990, 1, 1),
+                "Recife"
+        );
+
+        Usuario usuarioAlterado = new Usuario();
+        usuarioAlterado.setDataNascimento(LocalDate.of(1986, 12, 10));
+
+        when(usuarioRepository.buscarPorCpf(cpfAntigo))
+                .thenReturn(usuarioBanco);
+
+        when(usuarioRepository.atualizar(usuarioBanco))
+                .thenReturn(true);
+
+        boolean resultado = usuarioService.atualizar(cpfAntigo, usuarioAlterado);
+
+        Assertions.assertTrue(resultado);
+        Assertions.assertEquals(LocalDate.of(1986, 12, 10), usuarioBanco.getDataNascimento());
+
+        verify(usuarioRepository, times(1)).atualizar(usuarioBanco);
+    }
+
+    @Test
+    void testeAtualizarUsuarioSenhaVazia() {
 
         String cpfAntigo = "11111111185";
 
@@ -325,15 +429,8 @@ public class UsuarioServiceTest {
                 "Recife"
         );
 
-        Usuario usuarioAlterado = new Usuario(
-                "João",
-                "Silva",
-                "joao@gmail.com",
-                "senha123",
-                "",
-                LocalDate.now().minusYears(30),
-                "Recife"
-        );
+        Usuario usuarioAlterado = new Usuario();
+        usuarioAlterado.setSenha("");
 
         when(usuarioRepository.buscarPorCpf(cpfAntigo))
                 .thenReturn(usuarioBanco);
