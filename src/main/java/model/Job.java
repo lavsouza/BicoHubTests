@@ -1,5 +1,7 @@
 package main.java.model;
 
+import model.FotosJob;
+
 import java.time.LocalDateTime;
 
 public class Job {
@@ -10,6 +12,7 @@ public class Job {
     private double valorFinal;
     private Usuario cliente;
     private Categoria categoria;
+    private FotosJob fotosJob;
 
     public Job() {
     }
@@ -23,6 +26,7 @@ public class Job {
         this.valorFinal = valorFinal;
         this.cliente = cliente;
         this.categoria = categoria;
+        this.fotosJob = new FotosJob();
     }
 
     public String getTitulo() {
@@ -80,4 +84,6 @@ public class Job {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+
+    public FotosJob getFotosJob() {return fotosJob;}
 }

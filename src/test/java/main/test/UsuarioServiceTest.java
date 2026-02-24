@@ -107,6 +107,49 @@ public class UsuarioServiceTest {
         verify(usuarioRepository, never()).salvar(any());
     }
 
+    //TC005
+    @Test
+    void testeCadastroUsuarioComDataNascimentoVazia() {
+
+        Usuario usuarioNovo = new Usuario(
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silvinha89",
+                "368.532.600-74",
+                null,
+                "Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(usuarioNovo)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    //TC006
+    @Test
+    void testeCadastroUsuarioComEmailVazio(){
+        Usuario usuarioNovo = new Usuario(
+                "João",
+                "Silva",
+                null,
+                "silvinha89",
+                "368.532.600-74",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(usuarioNovo)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+
+    }
+
+
     @Test
     void testeCadastrarUsuarioEmailJaCadastrado() {
         Usuario u = new Usuario(
@@ -126,6 +169,47 @@ public class UsuarioServiceTest {
         );
 
         verify(usuarioRepository, never()).salvar(any());
+    }
+
+    //TC008
+    @Test
+    void testeCadastroUsuarioComSenhaVazia() {
+        Usuario usuarioNovo = new Usuario(
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                null,
+                "368.532.600-74",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(usuarioNovo)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+    }
+
+    //TC009
+    @Test
+    void testeCadastroUsuarioComCpfInvalido() {
+        Usuario usuarioNovo = new Usuario(
+                "João",
+                "Silva",
+                "joao.silva@gmail.com",
+                "silvinha89",
+                "1234",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        Assertions.assertThrows(IllegalArgumentException.class, () ->
+                usuarioService.salvar(usuarioNovo)
+        );
+
+        verify(usuarioRepository, never()).salvar(any());
+
     }
 
     @Test
@@ -440,6 +524,158 @@ public class UsuarioServiceTest {
         );
 
         verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    //TC019
+    @Test
+    void testeEditarNomeUsuarioComSucesso() {
+
+        Usuario usuarioTeste = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "12312312345",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        //usuarioTeste.setNome("Marcos");
+        String cpfUsuario = usuarioTeste.getCpf();
+        Usuario usuarioNomeAlterado = new Usuario();
+        usuarioNomeAlterado.setNome("Marcos");
+
+        when(usuarioRepository.buscarPorCpf(cpfUsuario)).thenReturn(usuarioTeste);
+        when(usuarioRepository.atualizar(usuarioTeste)).thenReturn(true);
+        boolean resultadoTroca = usuarioService.atualizar(cpfUsuario, usuarioNomeAlterado);
+
+        Assertions.assertTrue(resultadoTroca);
+        Assertions.assertEquals("Marcos", usuarioTeste.getNome());
+
+        verify(usuarioRepository, times(1)).atualizar(usuarioTeste);
+    }
+
+    //TC020
+    @Test
+    void testeEditarUsuarioNomeVazio(){
+        Usuario usuarioTeste = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "12312312345",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        String cpfUsuario = usuarioTeste.getCpf();
+        Usuario usuarioNomeVazio = new Usuario();
+        usuarioNomeVazio.setNome("");
+
+        when(usuarioRepository.buscarPorCpf(cpfUsuario)).thenReturn(usuarioTeste);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.atualizar(cpfUsuario, usuarioNomeVazio));
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    //TC021
+    @Test
+    void testeEditarUsuarioSobrenomeVazio(){
+        Usuario usuarioTeste = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "12312312345",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        String cpfUsuario = usuarioTeste.getCpf();
+        Usuario usuarioSobrenomeVazio = new Usuario();
+        usuarioSobrenomeVazio.setSobrenome("");
+
+        when(usuarioRepository.buscarPorCpf(cpfUsuario)).thenReturn(usuarioTeste);
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.atualizar(cpfUsuario, usuarioSobrenomeVazio));
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    //TC024
+    @Test
+    void testeEditarUsuarioDataNascimentoInvalida(){
+        Usuario usuarioTeste = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "12312312345",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        String cpfUsuario = usuarioTeste.getCpf();
+        Usuario usuarioDataInvalida = new Usuario();
+        usuarioDataInvalida.setDataNascimento(LocalDate.now().plusYears(1));
+
+        when(usuarioRepository.buscarPorCpf(cpfUsuario)).thenReturn(usuarioTeste);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.atualizar(cpfUsuario, usuarioDataInvalida));
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    //TC025 - depreciado, não há possibilidade da data de nascimento ser editada como vazia
+   /*@Test
+    void testeEditarUsuarioDataNascimentoVazia(){
+        Usuario usuarioTeste = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "12312312345",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        String cpfUsuario = usuarioTeste.getCpf();
+        Usuario usuarioDataNascimentoVazia = new Usuario();
+        usuarioDataNascimentoVazia.setDataNascimento(null);
+
+        when(usuarioRepository.buscarPorCpf(cpfUsuario)).thenReturn(usuarioTeste);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.atualizar(cpfUsuario, usuarioDataNascimentoVazia));
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }*/
+
+    //TC026
+    @Test
+    void testeEditarUsuarioEmailVazio() {
+        Usuario usuarioTeste = new Usuario(
+                "João",
+                "Silva",
+                "joao@gmail.com",
+                "senha123",
+                "12312312345",
+                LocalDate.now().minusYears(18),
+                "Recife"
+        );
+
+        String cpfUsuario = usuarioTeste.getCpf();
+        Usuario usuarioEmailVazio = new Usuario();
+        usuarioEmailVazio.setEmail("");
+
+        when(usuarioRepository.buscarPorCpf(cpfUsuario)).thenReturn(usuarioTeste);
+        Assertions.assertThrows(IllegalArgumentException.class, () -> usuarioService.atualizar(cpfUsuario, usuarioEmailVazio));
+
+        verify(usuarioRepository, never()).atualizar(any());
+    }
+
+    //TC033
+    @Test
+    void testeCadastraUsuarioComoProfissional(){
+
     }
 
 }

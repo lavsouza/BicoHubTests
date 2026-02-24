@@ -2,6 +2,9 @@ package main.java.service;
 
 import main.java.model.Usuario;
 import main.java.respository.UsuarioRepository;
+import main.java.model.Profissional;
+import respository.ProfissionalRepository;
+import service.ProfissionalService;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -96,6 +99,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Usuário não encontrado");
         }
 
+
         // ===== CPF =====
         if (usuarioAtualizado.getCpf() != null &&
                 !usuarioAtualizado.getCpf().equals(cpfAtual)) {
@@ -112,21 +116,42 @@ public class UsuarioService {
         }
 
         // ===== Nome =====
-        if (usuarioAtualizado.getNome() != null &&
+        /*if (usuarioAtualizado.getNome() != null &&
                 !usuarioAtualizado.getNome().trim().isEmpty()) {
             usuarioBanco.setNome(usuarioAtualizado.getNome());
+        }*/
+        if(usuarioAtualizado.getNome() != null){
+            if(!usuarioAtualizado.getNome().trim().isEmpty()){
+                usuarioBanco.setNome(usuarioAtualizado.getNome());
+            } else{
+                throw new IllegalArgumentException("Nome não pode ser vazio.");
+            }
         }
 
         // ===== Sobrenome =====
-        if (usuarioAtualizado.getSobrenome() != null &&
+        /*if (usuarioAtualizado.getSobrenome() != null &&
                 !usuarioAtualizado.getSobrenome().trim().isEmpty()) {
             usuarioBanco.setSobrenome(usuarioAtualizado.getSobrenome());
+        }*/
+        if(usuarioAtualizado.getSobrenome() != null){
+            if(!usuarioAtualizado.getSobrenome().trim().isEmpty()){
+                usuarioBanco.setSobrenome(usuarioAtualizado.getSobrenome());
+            } else{
+                throw new IllegalArgumentException("Sobrenome não pode ser vazio.");
+            }
         }
 
         // ===== Email =====
-        if (usuarioAtualizado.getEmail() != null &&
+        /*if (usuarioAtualizado.getEmail() != null &&
                 !usuarioAtualizado.getEmail().trim().isEmpty()) {
             usuarioBanco.setEmail(usuarioAtualizado.getEmail());
+        }*/
+        if (usuarioAtualizado.getEmail() != null){
+            if(!usuarioAtualizado.getEmail().trim().isEmpty()){
+                usuarioBanco.setEmail(usuarioAtualizado.getEmail());
+            } else {
+                throw new IllegalArgumentException("E-mail não pode estar vazio");
+            }
         }
 
         // ===== Senha =====
@@ -196,7 +221,21 @@ public class UsuarioService {
         usuarioRepository.deletarPorCpf(cpf);
     }
 
+    public boolean tornarProfissional(ProfissionalService profissionalService, Usuario usuarioNovoProfissional, String docId, String fotoComDocumento, int raioAtendimento){
+        if(usuarioNovoProfissional==null || eNuloOuVazio(docId) || eNuloOuVazio(fotoComDocumento) || raioAtendimento<=0){
+            throw new IllegalArgumentException("Não devem haver campos vazios.");
+        }
+
+        Profissional novoProfissional = new Profissional(usuarioNovoProfissional, docId, fotoComDocumento, 0, raioAtendimento);
+        return profissionalService.salvarProfissional(novoProfissional);
+
+
+    }
+
     private boolean eNuloOuVazio(String valor) {
         return valor == null || valor.trim().isEmpty();
     }
+
+
+
 }
